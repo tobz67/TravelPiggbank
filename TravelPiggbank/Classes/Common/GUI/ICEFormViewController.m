@@ -18,7 +18,7 @@
 
 -(void)viewDidLoad {
 
-    self.formFields = [[NSMutableArray alloc] init];
+    self.formFields = [[NSMutableDictionary alloc] init];
     self.validationManager = [PMValidationManager validationManager];
     
     self.toolTipView = [[InvalidTooltipView alloc] init];
@@ -29,7 +29,7 @@
     
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem: self.toolTipView attribute: NSLayoutAttributeHeight relatedBy: NSLayoutRelationEqual toItem: nil attribute:NSLayoutAttributeNotAnAttribute multiplier: 1 constant: 36]];
     
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem: self.toolTipView attribute: NSLayoutAttributeWidth relatedBy: NSLayoutRelationEqual toItem: nil attribute:NSLayoutAttributeNotAnAttribute multiplier: 1 constant: 238]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem: self.toolTipView attribute: NSLayoutAttributeWidth relatedBy: NSLayoutRelationEqual toItem: nil attribute:NSLayoutAttributeNotAnAttribute multiplier: 1 constant: 298]];
     
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.toolTipView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
 }
@@ -111,6 +111,8 @@
                                                              multiplier:1
                                                                constant:28]];
 //        self.toolTipView.text = @"Invalid input here";
+
+//        PMValidationUnit *unit = [self.validationManager unitForIdentifier:@""];
     }
 }
 

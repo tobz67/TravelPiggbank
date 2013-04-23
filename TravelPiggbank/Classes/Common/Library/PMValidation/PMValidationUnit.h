@@ -55,6 +55,15 @@
 */
 @property (nonatomic, copy) NSString *identifier;
 
+///---------------------
+/// @name Identification
+///---------------------
+
+/**
+ Used to identify this instance with `PMValidationManager`
+ */
+@property (nonatomic, strong) UIControl *field;
+
 
 ///----------------------------------
 /// @name Managing Validation Types

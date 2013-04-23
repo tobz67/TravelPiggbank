@@ -18,9 +18,20 @@
 #import "ValidationUnitStatusIndicatorVC.h"
 #import "InvalidTooltipView.h"
 
+
+#define kFormKey_Type @"type"
+#define kFormKey_Field @"field"
+#define kFormKey_Status @"field"
+
+#define kFormKey_Name @"name"
+#define kFormKey_Email @"email"
+#define kFormKey_Password @"password"
+#define kFormKey_ConfirmPassword @"email"
+#define kFormKey_Phone @"phone"
+
 @interface ICEFormViewController : UIViewController <UITextFieldDelegate>
 
-@property (nonatomic, strong) NSMutableArray*formFields;
+@property (nonatomic, strong) NSMutableDictionary *formFields;
 @property (nonatomic, retain) PMValidationManager *validationManager;
 @property (nonatomic, strong) InvalidTooltipView *toolTipView;
 

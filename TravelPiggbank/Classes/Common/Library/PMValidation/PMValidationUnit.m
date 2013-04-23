@@ -40,6 +40,7 @@ NSString *const PMValidationUnitUpdateNotification = @"PMValidationUnitUpdateNot
 
 @synthesize registeredValidationTypes;
 @synthesize identifier;
+@synthesize field;
 @synthesize isValid;
 @synthesize lastTextValue;
 @synthesize validationQueue;
@@ -111,6 +112,7 @@ NSString *const PMValidationUnitUpdateNotification = @"PMValidationUnitUpdateNot
 
     [registeredValidationTypes release];
     [identifier release];
+    [field release];
     [lastTextValue release];
     [errors release];
     
@@ -126,7 +128,6 @@ NSString *const PMValidationUnitUpdateNotification = @"PMValidationUnitUpdateNot
 - (void)registerValidationType:(PMValidationType *)validationType {
     
     [self.registeredValidationTypes addObject:validationType];
-    
     
 }
 

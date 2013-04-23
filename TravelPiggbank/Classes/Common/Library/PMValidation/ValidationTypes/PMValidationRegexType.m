@@ -41,7 +41,6 @@
     PMValidationRegexType *val = [[[PMValidationRegexType alloc] init] autorelease];
     
     return val;
-    
 }
 
 

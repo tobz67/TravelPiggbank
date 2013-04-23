@@ -14,6 +14,9 @@
 
 @interface SignInViewController ()
 
+@property (nonatomic, retain) ValidationUnitStatusIndicatorVC *emailStatus;
+@property (nonatomic, retain) ValidationUnitStatusIndicatorVC *passwordStatus;
+
 @end
 
 @implementation SignInViewController
@@ -29,17 +32,6 @@ NSArray const *stylesheets;
     
     self.navigationItem.title = @"Sign In";
     
-    [self.formFields addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:
-                                                                           [NSNumber numberWithInt:kTextFieldValueType_Email],
-                                                                           self.emailTextField,
-                                                                           nil]
-                                                                  forKeys:[NSArray arrayWithObjects:@"type", @"field", nil]]];
-    
-    [self.formFields addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:
-                                                                           [NSNumber numberWithInt:kTextFieldValueType_Text],
-                                                                           self.passwordTextField,
-                                                                           nil]
-                                                                  forKeys:[NSArray arrayWithObjects:@"type", @"field", nil]]];
 }
 
 - (IBAction)signInButtonTapped:(id)sender {
@@ -69,8 +61,23 @@ NSArray const *stylesheets;
     
 }
 
-
 - (void) registerValidators {
+    
+//    [self.formFields setObject:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:
+//                                                                    [NSNumber numberWithInt:kTextFieldValueType_Email],
+//                                                                    self.emailTextField,
+//                                                                    nil]
+//                                                           forKeys:[[NSArray arrayWithObjects:kFormKey_Type, kFormKey_Field, kFormKey_Status, nil] ]
+//                        forKey:kFormKey_Email];
+//    
+//    [self.formFields addObject:]];
+//    
+//    [self.formFields addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:
+//                                                                           [NSNumber numberWithInt:kTextFieldValueType_Text],
+//                                                                           self.passwordTextField,
+//                                                                           nil]
+//                                                                  forKeys:[NSArray arrayWithObjects:@"type", @"field", nil]]];
+
     
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
     
@@ -82,43 +89,45 @@ NSArray const *stylesheets;
     valEmailRegEx.regexString = @"^[A-Z0-9a-z]+$"; // only letters and numbers.
     PMValidationUnit *emailUnit = [self.validationManager registerTextField:self.emailTextField
                                                           forValidationTypes:[NSSet setWithObjects:valEmailLength, valEmailRegEx, nil]
-                                                                  identifier:@"email"];
+                                                                  identifier:kFormKey_Email];
     
-    ValidationUnitStatusIndicatorVC *emailStatus = [[ValidationUnitStatusIndicatorVC alloc] init];
-    self.emailTextField.rightView = emailStatus.view;
-    [emailStatus registerWithValidationUnit:emailUnit];
-    emailStatus.view.frame = CGRectMake(0, 0, emailStatus.indicatorIcon.frame.size.width, emailStatus.indicatorIcon.frame.size.height);
+    self.emailStatus = [[ValidationUnitStatusIndicatorVC alloc] init];
+    self.emailTextField.rightView = self.emailStatus.view;
+    [self.emailStatus registerWithValidationUnit:emailUnit];
+    self.emailStatus.view.frame = CGRectMake(0, 0, self.emailStatus.indicatorIcon.frame.size.width, self.emailStatus.indicatorIcon.frame.size.height);
     self.emailTextField.rightViewMode = UITextFieldViewModeAlways;
-    
     [self.emailTextField.rightView addGestureRecognizer:tapGesture];
     
     
-    
     // password
-    PMValidationEmailType *valPassword = [PMValidationEmailType validator];
-    PMValidationUnit *passwordUnit = [self.validationManager registerTextField:self.passwordTextField
-                                                          forValidationTypes:[NSSet setWithObjects:valPassword, nil]
-                                                                  identifier:@"email"];
+    PMValidationLengthType *valPasswordLen = [PMValidationLengthType validator];
+    valPasswordLen.minimumCharacters = 4;
+    valPasswordLen.maximumCharacters = 12;
+    PMValidationUnit *passwordUnit = [self.validationManager registerTextField:self.passwordTextField 
+                                                          forValidationTypes:[NSSet setWithObjects:valPasswordLen, nil]
+                                                                  identifier:kFormKey_Password];
+    
+    self.passwordStatus = [[ValidationUnitStatusIndicatorVC alloc] init];
+    self.passwordTextField.rightView = self.passwordStatus.view;
+    [self.passwordStatus registerWithValidationUnit:passwordUnit];
+    self.passwordStatus.view.frame = CGRectMake(0, 0, self.passwordStatus.indicatorIcon.frame.size.width, self.passwordStatus.indicatorIcon.frame.size.height);
+    self.passwordTextField.rightViewMode = UITextFieldViewModeAlways;
+    [self.passwordTextField.rightView addGestureRecognizer:tapGesture];
+
     
     
     // get validation status update
     [[NSNotificationCenter defaultCenter] addObserverForName:PMValidationStatusNotification object:self.validationManager queue:nil usingBlock:
      ^(NSNotification *notification) {
-         BOOL is_valid = [(NSNumber *)[notification.userInfo objectForKey:@"status"] boolValue];
+         BOOL is_valid = [(NSNumber *)[notification.userInfo objectForKey:kFormKey_Status] boolValue];
          if (is_valid) {
              self.signInButton.enabled = YES;
-             
-             
          } else {
-             
-             
-             self.signInButton.enabled = NO;
+            self.signInButton.enabled = NO;
          }
          NSLog(@"unit dict %@", notification.userInfo);
      }
      ];
-    
-    
 }
 
 - (IBAction)styleSegmentTapped:(id)sender {

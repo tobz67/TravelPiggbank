@@ -67,7 +67,7 @@
     
     PMValidationUnit *unit = (PMValidationUnit *)notification.object;
     
-    //NSLog(@"%@ is %i", unit.identifier, unit.isValid);
+    NSLog(@"%@ is %i", unit.identifier, unit.isValid);
     
     [self updateIndicatorForStatus:unit.isValid];
 

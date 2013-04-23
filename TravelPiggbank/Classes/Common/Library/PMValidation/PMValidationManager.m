@@ -101,6 +101,7 @@ NSString *const PMValidationStatusNotification = @"PMValidationStatusNotificatio
     
     // create validation unit with passed-in types and save it
     PMValidationUnit *unit = [[[PMValidationUnit alloc] initWithValidationTypes:validationTypes identifier:unit_identifier] autorelease];
+    unit.field = object;
     [self.validationUnits setObject:unit forKey:unit_identifier];
     
     // add listener for object which will pass on text changes to validation unit
