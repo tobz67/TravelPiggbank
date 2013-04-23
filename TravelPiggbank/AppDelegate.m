@@ -7,12 +7,18 @@
 //
 
 #import "AppDelegate.h"
+#import "NUIAppearance.h"
+#import "ConfigHelper.h"
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
+    // Override point for customization after application launch
+    [NUIAppearance init];
+    
+    [[ConfigHelper sharedHelper] configureRestKitServiceObjectMappings];
+    
     return YES;
 }
 							
